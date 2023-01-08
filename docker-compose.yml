@@ -1,0 +1,27 @@
+version: "3.6"
+
+services:
+    web:
+      container_name: spring-web
+      build:
+        context: ./roles/web
+        dockerfile: Dockerfile
+      image: skonhor/spring-app:2.0
+      ports:
+        - 8080:8080
+        - 80:80
+      depends_on:
+        - db_mysql
+      networks:
+        - nw_web
+        - nw_mysql
+    db_mysql:
+      image: yanivomc/spring-mysql:latest
+      environment:
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        MYSQL_DATABASE: "music"
+      networks:
+        - nw_mysql
+networks:
+  nw_web:
+  nw_mysql:
